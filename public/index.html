@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Battle Squad</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="name-chooser">
+    <input type="text" maxlength="12" class="name-place">
+    <button onclick="chooseName()">Choose</button>
+  </div>
+  <div class="main hidden">
+    <div class="waiting">PLAYERS</div>
+    <div class="waiting-list1"></div>
+    <div class="waiting-list2"></div>
+    <div class="players">
+      <div>
+        <button class="join-button btn-1">PLAYER 1</button>
+        <div class="player-1"></div>
+        <button class="hidden ready-btn-1">READY</button>
+      </div>
+      <div>
+        <button class="join-button btn-2">PLAYER 2</button>
+        <div class="player-2"></div>
+        <button class="hidden ready-btn-2">READY</button>
+      </div>
+    </div>
+    <div class="ready-display">0 / 2</div>
+  </div>
+  <div class="container hidden">
+    <div class="board">
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+      <div class="rows">
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+        <div class="tiles"></div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4T3ai8cmbX7HynD1AD1bSCQa8PYw8oHw",
+      authDomain: "game-ece2d.firebaseapp.com",
+      databaseURL: "https://game-ece2d-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "game-ece2d",
+      storageBucket: "game-ece2d.appspot.com",
+      messagingSenderId: "1007315196902",
+      appId: "1:1007315196902:web:2bb20e005d3a4b70ef5427"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>

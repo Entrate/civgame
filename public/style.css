@@ -1,0 +1,81 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2em;
+  overflow: hidden;
+}
+button {
+  font-size: 1rem;
+}
+.name-chooser {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 11em;
+  aspect-ratio: 1 / 1;
+  position: absolute;             
+  top: 50%;    
+  left: 50%;                     
+  transform: translate(-50%, -50%);
+  align-items: center;
+  background-color: aqua;
+  border: aqua 1rem solid;
+  border-radius: 2rem;
+}
+.waiting {
+  font-weight: bold;
+}
+.players {
+
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.player-1,.player-2 {
+  font-size: 1.5rem;
+}
+.ready-display {
+  padding-top: 1em;
+}
+.start-btn{
+  background-color: rgb(71, 229, 71);
+  border: none;
+  border-radius: 1em;
+  margin-top: 1em;
+  padding: 0.5em 1em;
+}
+.container {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  scale: 5;
+  max-width: 100%;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.board {
+  scale: 1;
+  image-rendering: pixelated;
+}
+.rows {
+  display: flex;
+}
+.tiles {
+  aspect-ratio: 1 / 1;
+  width: 32px;
+  background-color: brown;
+  outline: 1px black solid;
+}
+.hidden {
+  display: none;
+}
