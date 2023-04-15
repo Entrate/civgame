@@ -1,3 +1,6 @@
+*,*::after,*::before {
+  box-sizing: border-box;
+}
 body {
   padding: 0;
   margin: 0;
@@ -18,7 +21,7 @@ button {
   display: flex;
   flex-direction: column;
   width: 11em;
-  aspect-ratio: 1 / 1;
+  height: 11em;
   position: absolute;             
   top: 50%;    
   left: 50%;                     
@@ -38,7 +41,7 @@ button {
   justify-content: space-around;
 }
 .player-1,.player-2 {
-  font-size: 1.5rem;
+  font-size: 1em;
 }
 .ready-display {
   padding-top: 1em;
@@ -54,7 +57,7 @@ button {
   top: 50%;
   left: 50%;
   position: absolute;
-  scale: 5;
+  transform: scale(5);
   max-width: 100%;
   width: 400px;
   height: 400px;
@@ -64,15 +67,14 @@ button {
 
 }
 .board {
-  scale: 1;
   image-rendering: pixelated;
 }
 .rows {
   display: flex;
 }
 .tiles {
-  aspect-ratio: 1 / 1;
   width: 32px;
+  height: 32px;
   background-color: brown;
   outline: 1px black solid;
 }

@@ -199,7 +199,6 @@ firebase.auth().signInAnonymously().catch((error) => {
       lastPercentage[0] = currentTransform[0]
       lastPercentage[1] = currentTransform[1]
     }
-
   }
  window.onmousemove = e => {
   if(stage == 2){
@@ -210,7 +209,7 @@ firebase.auth().signInAnonymously().catch((error) => {
     const procentageY = (maxdeltaY / window.innerHeight) * -75 + lastPercentage[1]
     currentTransform[0] = procentageX
     currentTransform[1] = procentageY
-    document.querySelector('.container').style.transform = `translate(${procentageX}%,${procentageY}%)`;
+    document.querySelector('.board').style.transform = `translate(${procentageX}%,${procentageY}%)`;
   }
  }
  window.ondragstart = e => {
