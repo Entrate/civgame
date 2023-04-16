@@ -2,8 +2,8 @@
 
 const btn1 = document.querySelector('.btn-1')
 const btn2 = document.querySelector('.btn-2')
-const player1 = document.querySelector('.player-1')
-const player2 = document.querySelector('.player-2')
+const player1Div = document.querySelector('.player-1')
+const player2Div = document.querySelector('.player-2')
 const waitinglist1 = document.querySelector('.waiting-list1')
 const waitinglist2 = document.querySelector('.waiting-list2')
 const readyButton1 = document.querySelector('.ready-btn-1')
@@ -24,10 +24,10 @@ firebase.initializeApp(firebaseConfig);
   let playerId;
   let playerRef;
   let playerName;
-  let players1
-  let players2
-  let players1Name
-  let players2Name
+  let player1Uid
+  let player2Uid
+  let player1Name
+  let player2Name
   const db = firebase.database()
   let stage = 1
 
@@ -36,33 +36,30 @@ firebase.initializeApp(firebaseConfig);
     let i = 0
       listOfNames.forEach(snapshot => {
         if(i == 0){
-          players1 = snapshot.key
-          players2 = ''
-          players2Name = ''
+          player1Uid = snapshot.key
+          player2Uid = ''
         } else if (i == 1){
-          players2 = snapshot.key
+          player2Uid = snapshot.key
         }
         i++
     })
-    db.ref(`players/${players1}`).once('value').then(snapshot => {
-      players1Name = snapshot.child("name").val()
-      waitinglist1.innerHTML = players1Name
+    db.ref(`players/${player1Uid}`).once('value').then(snapshot => {
+      player1Name = snapshot.child("name").val()
+      waitinglist1.innerHTML = player1Name
     })
-    if(players2 != ''){
-        db.ref(`players/${players2}`).once('value').then(snapshot => {
-        players2Name = snapshot.child("name").val()
-        waitinglist2.innerHTML = players2Name
+    db.ref(`players/${player2Uid}`).once('value').then(snapshot => {
+    player2Name = snapshot.child("name").val()
+        waitinglist2.innerHTML = player2Name
     })
-    }
   }
 
 const whichTeam = async () => {
   let listOfNames = await db.ref('players').orderByKey().once('value')
   listOfNames.forEach(snapshot =>{
     if(snapshot.child("currentPlace").val() == 1){
-      player1.innerHTML = snapshot.child("name").val()
+      player1Div.innerHTML = snapshot.child("name").val()
     } else if(snapshot.child("currentPlace").val() == 2){
-      player2.innerHTML = snapshot.child("name").val()
+      player2Div.innerHTML = snapshot.child("name").val()
     }
   })
 }
@@ -94,8 +91,8 @@ db.ref(`players`).on("value",(snapshot) => {
   if(stage == 1){
   waitinglist1.innerHTML = ''
   waitinglist2.innerHTML = ''
-  player1.innerHTML = ''
-  player2.innerHTML = ''
+  player1Div.innerHTML = ''
+  player2Div.innerHTML = ''
   update2screen()
   whichTeam()
   showReadyness()
@@ -105,16 +102,16 @@ db.ref(`players`).on("value",(snapshot) => {
 
 })
 btn1.onclick = () => {
-  if(player1.innerHTML == playerName){
+  if(player1Div.innerHTML == playerName){
     db.ref(`players/${playerId}/currentPlace`).set(0)
-    player1.innerHTML = ''
+    player1Div.innerHTML = ''
     readyButton1.classList.toggle('hidden')
-  }else if(player1.innerHTML != ''){
+  }else if(player1Div.innerHTML != ''){
     db.ref(`players/${playerId}/currentPlace`).set(0)
     readyButton2.classList.add('hidden')
   } else {
-    if(player2.innerHTML == playerName){
-      player2.innerHTML = ''
+    if(player2Div.innerHTML == playerName){
+      player2Div.innerHTML = ''
       readyButton2.classList.toggle('hidden')
     }
     db.ref(`players/${playerId}/currentPlace`).set(1)
@@ -123,16 +120,16 @@ btn1.onclick = () => {
   db.ref(`players/${playerId}/isReady`).set(false)
 }
 btn2.onclick = () => {
-  if(player2.innerHTML == playerName){
+  if(player2Div.innerHTML == playerName){
     db.ref(`players/${playerId}/currentPlace`).set(0)
-    player2.innerHTML = ''
+    player2Div.innerHTML = ''
     readyButton2.classList.toggle('hidden')
-  }else if(player2.innerHTML != ''){
+  }else if(player2Div.innerHTML != ''){
     db.ref(`players/${playerId}/currentPlace`).set(0)
     readyButton1.classList.add('hidden')
   } else {
-    if(player1.innerHTML == playerName){
-      player1.innerHTML = ''
+    if(player1Div.innerHTML == playerName){
+      player1Div.innerHTML = ''
       readyButton1.classList.toggle('hidden')
     }
     db.ref(`players/${playerId}/currentPlace`).set(2)
@@ -205,8 +202,8 @@ firebase.auth().signInAnonymously().catch((error) => {
     if(panningX == 0 && panningY == 0) return
     const maxdeltaX = panningX - e.clientX
     const maxdeltaY = panningY - e.clientY
-    const procentageX = (maxdeltaX / window.innerWidth) * -75 + lastPercentage[0]
-    const procentageY = (maxdeltaY / window.innerHeight) * -75 + lastPercentage[1]
+    const procentageX = (maxdeltaX / window.innerWidth) * -50 + lastPercentage[0]
+    const procentageY = (maxdeltaY / window.innerHeight) * -50 + lastPercentage[1]
     currentTransform[0] = procentageX
     currentTransform[1] = procentageY
     document.querySelector('.board').style.transform = `translate(${procentageX}%,${procentageY}%)`;
@@ -217,10 +214,80 @@ firebase.auth().signInAnonymously().catch((error) => {
     e.preventDefault()
   }
  }
+ const resetGame = () => {
+  const tiles = document.querySelectorAll('.tiles')
+  tiles.forEach(tile => {
+    let tileRef = db.ref(`tiles/${tiles.indexof(tile) + 1}`).remove()
+  })
+ }
 
 const initGame = () => {
   console.log('gameHasStarted')
   stage = 2
   document.querySelector('.main').classList.add('hidden')
   document.querySelector('.container').classList.remove('hidden')
+  document.querySelector('.control-panel').classList.remove('hidden')
+  document.querySelector('.name').innerHTML = `NAME: ${playerName}`
+  let tileRef
+  const rows = document.querySelectorAll('.rows')
+  const tiles = document.querySelectorAll('.tiles')
+
+  const getTargetTile = (x,y) => {
+    return x + (y - 1)  * 20 - 1
+  }
+  const generateTroop = (tile) => {
+    tile.innerHTML = `<div class="army-img"><img src="images/solgers.png" alt="an army"></div>`
+    tile.classList.add('has-troop')
+  }
+  const removeTroop = tile => {
+    if(tile.innerHTML == '') return
+    tile.innerHTML = '' 
+    tile.classList.remove('has-troop')
+  }
+  const updateValuesToMap = async () => {
+    const tileRefs = await db.ref('tiles').orderByKey().once("value")
+    let i = 0
+    tileRefs.forEach(snapshot => {
+      if(snapshot.child("contains").val() == 'troop' && tiles[i].innerHTML == ''){
+      generateTroop(tiles[i])
+      }else if(snapshot.child("contains").val() == '' && tiles[i].innerHTML != ''){
+        removeTroop(tiles[i])
+      }
+      i++
+    })
+  }
+  tiles.forEach((tile, i) => {
+    tileRef = db.ref(`tiles/${i + 1}`)
+    tileRef.set({
+      ownedBy: '0',
+      contains: ''
+    })
+    tile.addEventListener('click',() => {
+      if(tile.innerHTML == ''){
+        db.ref(`tiles/${i + 1}`).update({
+          "contains": "troop"
+        })
+      } else {
+        db.ref(`tiles/${i + 1}`).update({
+          "contains": ""
+        })
+      }
+
+    })
+
+  })
+  db.ref(`tiles`).on("value", () => {
+    updateValuesToMap()
+  })
+  if(player1Uid == playerId && player1Name == playerName){
+    console.log('is Player 1 id:' + player1Uid)
+    tiles[getTargetTile(3,3)].classList.add('bg-green')
+    tiles[getTargetTile(18,18)].classList.add('bg-red')
+  } else if(player2Uid == playerId && player2Name == playerName){
+    tiles[getTargetTile(3,3)].classList.add('bg-red')
+    tiles[getTargetTile(18,18)].classList.add('bg-green')
+    console.log('is Player 2 id:' + player2Uid)
+  } else {
+    console.log('what are you')
+  }
 }

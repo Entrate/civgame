@@ -11,6 +11,10 @@ body {
 button {
   font-size: 1rem;
 }
+img {
+  user-select: none;
+  max-width: 100%;
+}
 .name-chooser {
   position: absolute;
   top: 50%;
@@ -57,7 +61,7 @@ button {
   top: 50%;
   left: 50%;
   position: absolute;
-  transform: scale(5);
+  transform: scale(2);
   max-width: 100%;
   width: 400px;
   height: 400px;
@@ -73,11 +77,57 @@ button {
   display: flex;
 }
 .tiles {
-  width: 32px;
-  height: 32px;
-  background-color: brown;
+  width: 64px;
+  height: 64px;
+  background-color: rgb(109, 80, 33);
   outline: 1px black solid;
+}
+.control-panel {
+  border-top: 2px black solid;
+  position: fixed;
+  height: 5em;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  background-color: gray;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 2em;
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+.line1 {
+  padding-right: 2em;
+}
+.upgrades {
+  display: flex;
+}
+.upgrade-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upgrade-container + .upgrade-container {
+  margin-left: 2em;
+}
+.upgrade-btn {
+  width: 7em;
+  height: 6em;
+  font-weight: bold;
+}
+.amount-of-upgrades {
+  font-size: 1.5rem;
 }
 .hidden {
   display: none;
+}
+.bg-red{
+  background-color: red;
+}
+.bg-green{
+  background-color: green;
 }
